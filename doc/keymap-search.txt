@@ -1,0 +1,314 @@
+*keymap-search.txt*          Search and manage Neovim keybindings          *keymap-search*
+
+==============================================================================
+CONTENTS                                                  *keymap-search-contents*
+
+    1. Introduction ................ |keymap-search-introduction|
+    2. Installation ................ |keymap-search-installation|
+    3. Configuration ............... |keymap-search-configuration|
+    4. Usage ...................... |keymap-search-usage|
+    4. Favorites ................... |keymap-search-favorites|
+    5. Commands ................... |keymap-search-commands|
+    6. Mappings ................... |keymap-search-mappings|
+    7. Categories ................. |keymap-search-categories|
+    8. API ....................... |keymap-search-api|
+    9. Tips ...................... |keymap-search-tips|
+    10. FAQ ...................... |keymap-search-faq|
+
+==============================================================================
+1. INTRODUCTION                                     *keymap-search-introduction*
+
+Telescope Keymap Search provides a comprehensive interface for searching,
+managing, and learning Neovim keybindings. It integrates with telescope.nvim
+to offer fuzzy searching, categorization, and management of all keybindings.
+
+Features:~
+    • Fuzzy search all Neovim keybindings
+    • Category-based organization
+    • Favorites system
+    • Usage history tracking
+    • Edit keybindings on the fly
+    • Color-coded display
+    • Alternative suggestions
+    • Context-aware information
+
+==============================================================================
+2. INSTALLATION                                     *keymap-search-installation*
+
+Requirements:~
+    • Neovim >= 0.9.0
+    • telescope.nvim
+    • nvim-web-devicons (optional)
+
+Using lazy.nvim: >
+    {
+      "username/telescope-keymap-search.nvim",
+      dependencies = {
+        "nvim-telescope/telescope.nvim",
+        "nvim-lua/plenary.nvim",
+      },
+      cmd = "Keymaps",
+      keys = {
+        { "<leader>sk", "<cmd>Telescope keymap_search<cr>", 
+          desc = "Search Keymaps" },
+      },
+    }
+
+
+==============================================================================
+3. CONFIGURATION                                   *keymap-search-configuration*
+
+Default configuration: >
+    require("telescope").setup({
+      extensions = {
+        keymap_search = {
+          appearance = {
+            layout_strategy = "horizontal",
+            layout_config = {
+              width = 0.95,
+              height = 0.8,
+              preview_width = 0.5,
+            },
+            color_scheme = {
+              leader = "#89b4fa",
+              ctrl = "#f38ba8",
+              alt = "#a6e3a1",
+              shift = "#fab387",
+              normal = "#cdd6f4",
+            },
+          },
+          features = {
+            show_context = true,
+            show_source = true,
+            show_alternatives = true,
+            enable_edit = true,
+            enable_preview = true,
+          },
+          history = {
+            max_entries = 100,
+            save_to_disk = true,
+          },
+          favorites = {
+            max_entries = 50,
+            save_to_disk = true,
+          },
+        }
+      }
+    })
+
+
+==============================================================================
+4. USAGE                                                 *keymap-search-usage*
+
+Basic Usage:~
+    • Press <leader>sk to open keymap search
+    • Type to fuzzy search through keybindings
+    • Use number keys 1-9 to switch categories
+    • Press <CR> to execute selected keymap
+    • Press <C-f> to toggle favorite status
+    • Press <C-e> to edit keymap
+
+Categories (Quick Access):~
+    1 - All Keymaps
+    2 - Movement Keys
+    3 - Editing Commands
+    4 - LSP Functions
+    5 - Window Management
+    6 - File Operations
+    7 - Plugin Commands
+    8 - Search History
+    9 - Favorites
+
+Filter Syntax:~
+    @tag        Filter by tag
+    #context    Filter by context
+    ^source     Filter by source
+    !mode       Filter by mode
+
+Example Searches:~
+    @lsp              LSP-related keymaps
+    #buffer           Buffer-local keymaps
+    ^plugin           Plugin-defined keymaps
+    !n                Normal mode keymaps
+    window @edit      Window editing commands
+
+==============================================================================
+5. Favorites                                              *keymap-search-favorites*
+
+Manage your favorite keybindings in multiple ways:
+
+Inside Telescope Interface:~
+    <C-f>       Toggle favorite status of selected keymap
+    s           Toggle favorite status (normal mode)
+    9           Quick access to favorites tab
+
+From Anywhere in Neovim:~
+    :KeymapFavorite      Add/remove keymap under cursor to favorites
+    :KeymapsFavorites    Open favorites view
+
+Programmatic Access:~
+>
+    -- Add to favorites
+    require("keywhiz").add_favorite({
+      mode = "n",
+      lhs = "<leader>ff",
+      desc = "Find files"
+    })
+
+    -- Remove from favorites
+    require("keywhiz").remove_favorite({
+      mode = "n",
+      lhs = "<leader>ff"
+    })
+
+    -- Get all favorites
+    local favorites = require("keywhiz").get_favorites()
+
+
+Visual Indicators:~
+    ★           Indicates a favorite keymap in the interface
+    Space       Indicates a non-favorite keymap
+
+Working with Favorites:~
+    • Favorites are persisted between sessions
+    • Favorites appear at the top of search results
+    • Use category 9 for quick access to all favorites
+    • Favorites maintain their original categories and tags
+    • Edit favorites just like regular keymaps
+
+Management Commands:~
+    :KeymapsFavoritesClear     Clear all favorites
+    :KeymapsFavoritesExport    Export favorites to JSON
+    :KeymapsFavoritesImport    Import favorites from JSON
+
+Configuration:~
+>
+    require("telescope").setup({
+      extensions = {
+        keymap_search = {
+          favorites = {
+            max_entries = 50,      -- Maximum number of favorites
+            save_to_disk = true,   -- Persist between sessions
+            show_icons = true,     -- Show favorite icons
+            icon = "★",           -- Custom favorite icon
+            sort_first = true      -- Show favorites first in results
+          }
+        }
+      }
+    })
+
+==============================================================================
+6. COMMANDS                                           *keymap-search-commands*
+
+:Keymaps [category]                                              *:Keymaps*
+    Open keymap search, optionally filtered by category
+
+:KeymapsMovement                                          *:KeymapsMovement*
+    Search movement-related keymaps
+
+:KeymapsEditing                                          *:KeymapsEditing*
+    Search editing commands
+
+:KeymapsLSP                                              *:KeymapsLSP*
+    Search LSP-related commands
+
+:KeymapsWindows                                          *:KeymapsWindows*
+    Search window management commands
+
+:KeymapsFiles                                            *:KeymapsFiles*
+    Search file operations
+
+:KeymapsPlugins                                          *:KeymapsPlugins*
+    Search plugin commands
+
+:KeymapsHistory                                          *:KeymapsHistory*
+    View keymap usage history
+
+:KeymapsFavorites                                        *:KeymapsFavorites*
+    View favorite keymaps
+
+==============================================================================
+7. MAPPINGS                                           *keymap-search-mappings*
+
+Default Mappings in Picker:~
+    <CR>        Execute selected keymap
+    <C-f>       Toggle favorite status
+    <C-e>       Edit keymap
+    <C-p>       Toggle preview
+    <C-u>       Scroll preview up
+    <C-d>       Scroll preview down
+    1-9         Quick category switching
+    <Esc>       Close picker
+
+Global Mappings:~
+    <leader>sk  Open keymap search
+
+==============================================================================
+8. CATEGORIES                                       *keymap-search-categories*
+
+Built-in Categories:~
+    • Movement
+    • Editing
+    • LSP
+    • Windows
+    • Files
+    • Search
+    • Git
+    • Misc
+
+Adding Custom Categories:~
+>
+    TelescopeKeymapSearch.add_category("mycategory", {
+      patterns = { "pattern1", "pattern2" },
+      keywords = { "keyword1", "keyword2" },
+    })
+
+
+==============================================================================
+9. API                                                     *keymap-search-api*
+
+Lua API:~
+>
+    -- Show keymap search
+    TelescopeKeymapSearch.show(category)
+
+    -- Add custom category
+    TelescopeKeymapSearch.add_category(name, patterns)
+
+    -- Register manual keymap
+    TelescopeKeymapSearch.register_keymap(mode, lhs, desc, category)
+
+
+==============================================================================
+10. TIPS                                                   *keymap-search-tips*
+
+Best Practices:~
+    • Use categories for better organization
+    • Favorite frequently used commands
+    • Check alternatives for efficient workflows
+    • Use fuzzy search for quick access
+    • Review history to identify learning opportunities
+
+Common Patterns:~
+    • Start with broad category, then filter
+    • Use tags for cross-category searches
+    • Combine filters for precise results
+    • Check preview for detailed information
+
+==============================================================================
+11. FAQ                                                     *keymap-search-faq*
+
+Q: How do I reset my favorites?
+A: Delete the favorites file in your cache directory
+
+Q: Can I disable history tracking?
+A: Set history.save_to_disk = false in configuration
+
+Q: How do I share keymaps between machines?
+A: Export favorites using the API and sync the file
+
+Q: Why don't I see my plugin's keymaps?
+A: Ensure the plugin is loaded when searching
+
+==============================================================================
+vim:ft=help:tw=78:ts=8:noet:fen:fdl=0:fdm=marker:
