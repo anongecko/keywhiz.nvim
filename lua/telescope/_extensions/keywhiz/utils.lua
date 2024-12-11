@@ -2,7 +2,6 @@ local M = {}
 
 -- Cache frequently used modules
 local config = require("telescope._extensions.keywhiz.config")
-local favorites = require("telescope._extensions.keywhiz.favorites")
 
 -- Enhanced key type detection
 function M.get_key_type(lhs)
@@ -39,35 +38,25 @@ function M.format_key_combination(lhs)
 end
 
 -- Comprehensive keymap display formatting
-function M.format_keymap_display(keymap)
+function M.format_keymap_display(keymap, is_favorite)
   if not keymap then
     return ""
   end
 
-  -- Get favorite status
-  local is_favorite = favorites.is_favorite(keymap)
+  -- Use passed favorite status
   local favorite_icon = is_favorite and "★ " or "  "
 
-  -- Format key combination
+  -- Rest of the function remains the same
   local formatted_key = M.format_key_combination(keymap.lhs or "")
-
-  -- Get source with icon
   local source = M.get_keymap_source(keymap)
   local source_icon = config.get_config().icons.sources[source] or ""
-
-  -- Get mode indicator
   local mode = keymap.mode or "n"
   local mode_icon = config.get_config().icons.modes[mode] or mode
-
-  -- Get context if any
   local context = M.get_keymap_context(keymap)
   local context_display = context and string.format(" [%s]", context) or ""
-
-  -- Get category icon if available
   local category = M.get_keymap_category(keymap)
   local category_icon = config.get_config().icons.categories[category] or ""
 
-  -- Format the display string
   return string.format(
     "%s%s %s %s %s%s %s%s",
     favorite_icon,
