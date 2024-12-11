@@ -1,0 +1,25 @@
+# Compiled Lua sources
+luac.out
+
+# luarocks build files
+*.src.rock
+*.zip
+*.tar.gz
+
+# Object files
+*.o
+*.os
+*.ko
+*.obj
+*.elf
+
+# Vim temporary files
+*~
+*.swp
+*.swo
+
+# macOS files
+.DS_Store
+
+# Plugin specific
+.cache/
