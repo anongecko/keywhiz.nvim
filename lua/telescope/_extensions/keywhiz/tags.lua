@@ -1,5 +1,5 @@
 local M = {}
-local config = require("telescope._extensions.keymap_search.config")
+local config = require("telescope._extensions.keywhiz.config")
 
 M.tag_definitions = {
   -- Mode-based tags
@@ -49,7 +49,7 @@ function M.generate_tags(keymap)
   end
 
   -- Add source tag
-  local source = require("telescope._extensions.keymap_search.utils").get_keymap_source(keymap)
+  local source = require("telescope._extensions.keywhiz.utils").get_keymap_source(keymap)
   table.insert(tags, {
     type = "source",
     name = source,

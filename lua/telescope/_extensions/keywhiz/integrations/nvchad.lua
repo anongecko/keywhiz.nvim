@@ -1,8 +1,8 @@
--- lua/telescope/_extensions/keymap_search/integrations/nvchad.lua
+-- lua/telescope/_extensions/keywhiz/integrations/nvchad.lua
 local M = {}
 
 -- Cache modules
-local config = require("telescope._extensions.keymap_search.config")
+local config = require("telescope._extensions.keywhiz.config")
 
 -- State tracking
 M.state = {

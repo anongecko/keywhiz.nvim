@@ -1,6 +1,6 @@
--- lua/telescope/_extensions/keymap_search/conflicts.lua
+-- lua/telescope/_extensions/keywhiz/conflicts.lua
 local M = {}
-local config = require("telescope._extensions.keymap_search.config")
+local config = require("telescope._extensions.keywhiz.config")
 
 -- Enhanced conflict types
 M.conflict_types = {

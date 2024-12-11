@@ -5,7 +5,7 @@ local action_state = require("telescope.actions.state")
 local actions = require("telescope.actions")
 local finders = require("telescope.finders")
 local pickers = require("telescope.pickers")
-local themes = require("telescope._extensions.keymap_search.themes")
+local themes = require("telescope._extensions.keywhiz.themes")
 local conf = require("telescope.config").values
 
 function M.theme_switcher()
@@ -96,7 +96,7 @@ function M.theme_switcher()
         map("i", "<C-p>", function()
           local selection = action_state.get_selected_entry()
           if selection then
-            require("telescope._extensions.keymap_search").set_theme(selection.value.name, true)
+            require("telescope._extensions.keywhiz").set_theme(selection.value.name, true)
           end
         end)
 
@@ -104,7 +104,7 @@ function M.theme_switcher()
         actions.select_default:replace(function()
           local selection = action_state.get_selected_entry()
           if selection then
-            require("telescope._extensions.keymap_search").set_theme(selection.value.name)
+            require("telescope._extensions.keywhiz").set_theme(selection.value.name)
             actions.close(prompt_bufnr)
           end
         end)
@@ -114,7 +114,7 @@ function M.theme_switcher()
           actions.move_selection_previous(prompt_bufnr)
           local selection = action_state.get_selected_entry()
           if selection then
-            require("telescope._extensions.keymap_search").set_theme(selection.value.name, true)
+            require("telescope._extensions.keywhiz").set_theme(selection.value.name, true)
           end
         end)
 
@@ -122,7 +122,7 @@ function M.theme_switcher()
           actions.move_selection_next(prompt_bufnr)
           local selection = action_state.get_selected_entry()
           if selection then
-            require("telescope._extensions.keymap_search").set_theme(selection.value.name, true)
+            require("telescope._extensions.keywhiz").set_theme(selection.value.name, true)
           end
         end)
 

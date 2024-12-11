@@ -1,8 +1,8 @@
 local M = {}
 
 -- Cache frequently used modules
-local config = require("telescope._extensions.keymap_search.config")
-local favorites = require("telescope._extensions.keymap_search.favorites")
+local config = require("telescope._extensions.keywhiz.config")
+local favorites = require("telescope._extensions.keywhiz.favorites")
 
 -- Enhanced key type detection
 function M.get_key_type(lhs)
@@ -191,7 +191,7 @@ function M.get_keymap_category(keymap)
   local lhs = (keymap.lhs or ""):lower()
 
   -- Define category patterns
-  local categories = require("telescope._extensions.keymap_search.categories").category_rules
+  local categories = require("telescope._extensions.keywhiz.categories").category_rules
 
   for category, rules in pairs(categories) do
     -- Check patterns

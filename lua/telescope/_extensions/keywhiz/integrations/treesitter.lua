@@ -1,9 +1,9 @@
--- lua/telescope/_extensions/keymap_search/integrations/treesitter.lua
+-- lua/telescope/_extensions/keywhiz/integrations/treesitter.lua
 local M = {}
 
 -- Cache modules
 local ts = vim.treesitter
-local config = require("telescope._extensions.keymap_search.config")
+local config = require("telescope._extensions.keywhiz.config")
 local parsers = require("nvim-treesitter.parsers")
 local queries = require("nvim-treesitter.query")
 local ts_utils = require("nvim-treesitter.ts_utils")

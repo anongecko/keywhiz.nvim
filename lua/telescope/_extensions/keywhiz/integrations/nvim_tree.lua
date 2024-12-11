@@ -1,9 +1,9 @@
--- lua/telescope/_extensions/keymap_search/integrations/nvim_tree.lua
+-- lua/telescope/_extensions/keywhiz/integrations/nvim_tree.lua
 local M = {}
 
 -- Cache modules
-local config = require("telescope._extensions.keymap_search.config")
-local utils = require("telescope._extensions.keymap_search.utils")
+local config = require("telescope._extensions.keywhiz.config")
+local utils = require("telescope._extensions.keywhiz.utils")
 
 -- Cache for NvimTree state
 M.tree_state = {

@@ -1,8 +1,8 @@
 local M = {}
-local config = require("telescope._extensions.keymap_search.config")
-local favorites = require("telescope._extensions.keymap_search.favorites")
-local history = require("telescope._extensions.keymap_search.history")
-local utils = require("telescope._extensions.keymap_search.utils")
+local config = require("telescope._extensions.keywhiz.config")
+local favorites = require("telescope._extensions.keywhiz.favorites")
+local history = require("telescope._extensions.keywhiz.history")
+local utils = require("telescope._extensions.keywhiz.utils")
 
 -- Execute a keymap
 function M.execute_keymap(keymap)

@@ -1,4 +1,4 @@
--- lua/telescope/_extensions/keymap_search/command_palette.lua
+-- lua/telescope/_extensions/keywhiz/command_palette.lua
 local M = {}
 local action_state = require("telescope.actions.state")
 local actions = require("telescope.actions")
@@ -7,8 +7,8 @@ local pickers = require("telescope.pickers")
 local themes = require("telescope.themes")
 
 -- Cache commonly used modules
-local config = require("telescope._extensions.keymap_search.config")
-local utils = require("telescope._extensions.keymap_search.utils")
+local config = require("telescope._extensions.keywhiz.config")
+local utils = require("telescope._extensions.keywhiz.utils")
 
 -- Command types and their icons
 M.command_types = {
@@ -36,7 +36,7 @@ function M.get_commands()
   end
 
   -- Keymaps as commands
-  local keymaps = require("telescope._extensions.keymap_search").get_all_keymaps()
+  local keymaps = require("telescope._extensions.keywhiz").get_all_keymaps()
   for _, map in ipairs(keymaps) do
     if map.desc then -- Only include documented mappings
       table.insert(commands, {
@@ -44,7 +44,7 @@ function M.get_commands()
         name = map.lhs,
         desc = map.desc,
         execute = function()
-          require("telescope._extensions.keymap_search.actions").execute_keymap(map)
+          require("telescope._extensions.keywhiz.actions").execute_keymap(map)
         end,
       })
     end
@@ -52,12 +52,12 @@ function M.get_commands()
 
   -- Integration-specific commands
   for name, integration in pairs({
-    treesitter = require("telescope._extensions.keymap_search.integrations.treesitter"),
-    lsp = require("telescope._extensions.keymap_search.integrations.lsp"),
-    marks = require("telescope._extensions.keymap_search.integrations.marks"),
-    buffer_window = require("telescope._extensions.keymap_search.integrations.buffer_window"),
-    session = require("telescope._extensions.keymap_search.integrations.session"),
-    terminal = require("telescope._extensions.keymap_search.integrations.terminal"),
+    treesitter = require("telescope._extensions.keywhiz.integrations.treesitter"),
+    lsp = require("telescope._extensions.keywhiz.integrations.lsp"),
+    marks = require("telescope._extensions.keywhiz.integrations.marks"),
+    buffer_window = require("telescope._extensions.keywhiz.integrations.buffer_window"),
+    session = require("telescope._extensions.keywhiz.integrations.session"),
+    terminal = require("telescope._extensions.keywhiz.integrations.terminal"),
   }) do
     if integration.get_commands and config.is_integration_enabled(name) then
       local integration_commands = integration.get_commands()

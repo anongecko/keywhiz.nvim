@@ -1,6 +1,6 @@
 local M = {}
-local config = require("telescope._extensions.keymap_search.config")
-local utils = require("telescope._extensions.keymap_search.utils")
+local config = require("telescope._extensions.keywhiz.config")
+local utils = require("telescope._extensions.keywhiz.utils")
 
 -- Define category patterns and rules
 M.category_rules = {

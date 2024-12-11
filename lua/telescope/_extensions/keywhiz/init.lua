@@ -2,17 +2,17 @@ local M = {}
 
 -- Cache our modules
 local integrations = {
-  treesitter = require("telescope._extensions.keymap_search.integrations.treesitter"),
-  marks = require("telescope._extensions.keymap_search.integrations.marks"),
-  buffer_window = require("telescope._extensions.keymap_search.integrations.buffer_window"),
-  session = require("telescope._extensions.keymap_search.integrations.session"),
-  terminal = require("telescope._extensions.keymap_search.integrations.terminal"),
+  treesitter = require("telescope._extensions.keywhiz.integrations.treesitter"),
+  marks = require("telescope._extensions.keywhiz.integrations.marks"),
+  buffer_window = require("telescope._extensions.keywhiz.integrations.buffer_window"),
+  session = require("telescope._extensions.keywhiz.integrations.session"),
+  terminal = require("telescope._extensions.keywhiz.integrations.terminal"),
 }
 
 -- Initial setup function
 function M.setup(opts)
   -- Setup base configuration
-  require("telescope._extensions.keymap_search.config").setup(opts)
+  require("telescope._extensions.keywhiz.config").setup(opts)
 
   -- Initialize integrations
   for name, integration in pairs(integrations) do
@@ -26,8 +26,8 @@ function M.setup(opts)
   vim.fn.mkdir(cache_dir, "p")
 
   -- Set up core components
-  require("telescope._extensions.keymap_search.history").setup(cache_dir)
-  require("telescope._extensions.keymap_search.favorites").setup(cache_dir)
+  require("telescope._extensions.keywhiz.history").setup(cache_dir)
+  require("telescope._extensions.keywhiz.favorites").setup(cache_dir)
 end
 
 -- Get all available keymaps with context
@@ -82,7 +82,7 @@ function M.show_keymaps(opts)
   end
 
   -- Create and show the picker
-  require("telescope._extensions.keymap_search.picker").create_picker(filtered_keymaps, opts)
+  require("telescope._extensions.keywhiz.picker").create_picker(filtered_keymaps, opts)
 end
 
 -- Register extension with telescope

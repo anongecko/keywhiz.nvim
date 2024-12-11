@@ -1,4 +1,4 @@
--- lua/telescope/_extensions/keymap_search/picker.lua
+-- lua/telescope/_extensions/keywhiz/picker.lua
 local finders = require("telescope.finders")
 local pickers = require("telescope.pickers")
 local conf = require("telescope.config").values
@@ -8,20 +8,20 @@ local entry_display = require("telescope.pickers.entry_display")
 local themes = require("telescope.themes")
 
 -- Cache commonly used modules
-local config = require("telescope._extensions.keymap_search.config")
-local favorites = require("telescope._extensions.keymap_search.favorites")
-local history = require("telescope._extensions.keymap_search.history")
-local keymap_actions = require("telescope._extensions.keymap_search.actions")
-local utils = require("telescope._extensions.keymap_search.utils")
+local config = require("telescope._extensions.keywhiz.config")
+local favorites = require("telescope._extensions.keywhiz.favorites")
+local history = require("telescope._extensions.keywhiz.history")
+local keymap_actions = require("telescope._extensions.keywhiz.actions")
+local utils = require("telescope._extensions.keywhiz.utils")
 
 -- Integration modules
 local integrations = {
-  treesitter = require("telescope._extensions.keymap_search.integrations.treesitter"),
-  lsp = require("telescope._extensions.keymap_search.integrations.lsp"),
-  marks = require("telescope._extensions.keymap_search.integrations.marks"),
-  buffer_window = require("telescope._extensions.keymap_search.integrations.buffer_window"),
-  session = require("telescope._extensions.keymap_search.integrations.session"),
-  terminal = require("telescope._extensions.keymap_search.integrations.terminal"),
+  treesitter = require("telescope._extensions.keywhiz.integrations.treesitter"),
+  lsp = require("telescope._extensions.keywhiz.integrations.lsp"),
+  marks = require("telescope._extensions.keywhiz.integrations.marks"),
+  buffer_window = require("telescope._extensions.keywhiz.integrations.buffer_window"),
+  session = require("telescope._extensions.keywhiz.integrations.session"),
+  terminal = require("telescope._extensions.keywhiz.integrations.terminal"),
 }
 
 local M = {}

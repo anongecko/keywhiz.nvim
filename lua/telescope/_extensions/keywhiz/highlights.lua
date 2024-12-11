@@ -2,7 +2,7 @@
 local M = {}
 
 -- Cache the config module
-local config = require("telescope._extensions.keymap_search.config")
+local config = require("telescope._extensions.keywhiz.config")
 
 -- Define base colors (using Catppuccin Mocha as default)
 M.colors = {

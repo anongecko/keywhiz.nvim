@@ -1,9 +1,9 @@
--- lua/telescope/_extensions/keymap_search/integrations/which_key.lua
+-- lua/telescope/_extensions/keywhiz/integrations/which_key.lua
 local M = {}
 
 -- Cache commonly used modules
-local config = require("telescope._extensions.keymap_search.config")
-local utils = require("telescope._extensions.keymap_search.utils")
+local config = require("telescope._extensions.keywhiz.config")
+local utils = require("telescope._extensions.keywhiz.utils")
 
 -- Cache for which-key registrations
 M.which_key_cache = {

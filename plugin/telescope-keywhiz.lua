@@ -4,7 +4,7 @@ if vim.g.loaded_telescope_keymap_search == 1 then
 end
 
 if vim.fn.has("nvim-0.9.0") == 0 then
-  vim.api.nvim_err_writeln("telescope-keymap-search requires Neovim >= 0.9.0")
+  vim.api.nvim_err_writeln("telescope-keywhiz requires Neovim >= 0.9.0")
   return
 end
 
@@ -15,7 +15,7 @@ local function ensure_dependencies()
   -- Check core dependencies
   local has_telescope, _ = pcall(require, "telescope")
   if not has_telescope then
-    vim.api.nvim_err_writeln("telescope-keymap-search requires telescope.nvim")
+    vim.api.nvim_err_writeln("telescope-keywhiz requires telescope.nvim")
     return false
   end
 
@@ -36,7 +36,7 @@ local function create_commands()
   end, {
     nargs = "?",
     complete = function(_, line)
-      return require("telescope._extensions.keymap_search.config").get_categories()
+      return require("telescope._extensions.keywhiz.config").get_categories()
     end,
     desc = "Search and manage keymaps",
   })
@@ -63,13 +63,13 @@ local function create_commands()
 
   -- Additional functionality commands
   vim.api.nvim_create_user_command("KeymapsPalette", function()
-    require("telescope._extensions.keymap_search.command_palette").show()
+    require("telescope._extensions.keywhiz.command_palette").show()
   end, {
     desc = "Show command palette",
   })
 
   vim.api.nvim_create_user_command("KeymapsConflicts", function()
-    require("telescope._extensions.keymap_search.conflicts").show_conflicts()
+    require("telescope._extensions.keywhiz.conflicts").show_conflicts()
   end, {
     desc = "Show keymap conflicts",
   })
@@ -111,8 +111,8 @@ local function create_autocmds()
   vim.api.nvim_create_autocmd("VimLeavePre", {
     group = group,
     callback = function()
-      local history = require("telescope._extensions.keymap_search.history")
-      local favorites = require("telescope._extensions.keymap_search.favorites")
+      local history = require("telescope._extensions.keywhiz.history")
+      local favorites = require("telescope._extensions.keywhiz.favorites")
       history.save_entries(history.get_entries())
       favorites.save_entries(favorites.get_entries())
     end,
@@ -124,7 +124,7 @@ local function create_autocmds()
     pattern = "LazyLoad",
     callback = function()
       vim.schedule(function()
-        require("telescope._extensions.keymap_search.utils").refresh_keymap_cache()
+        require("telescope._extensions.keywhiz.utils").refresh_keymap_cache()
       end)
     end,
   })
@@ -133,7 +133,7 @@ local function create_autocmds()
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = group,
     callback = function()
-      require("telescope._extensions.keymap_search.themes").update_theme()
+      require("telescope._extensions.keywhiz.themes").update_theme()
     end,
   })
 
@@ -143,7 +143,7 @@ local function create_autocmds()
       group = group,
       pattern = { "NvChadThemeReload", "NvChadUiToggle" },
       callback = function()
-        require("telescope._extensions.keymap_search.integrations.nvchad").update_ui_state()
+        require("telescope._extensions.keywhiz.integrations.nvchad").update_ui_state()
       end,
     })
   end
@@ -158,7 +158,7 @@ local function setup_integrations(available_integrations)
 
   for name, module in pairs(integrations) do
     if available_integrations[name] then
-      local ok, integration = pcall(require, "telescope._extensions.keymap_search.integrations." .. module)
+      local ok, integration = pcall(require, "telescope._extensions.keywhiz.integrations." .. module)
       if ok and integration.setup then
         integration.setup()
       end
@@ -168,11 +168,11 @@ end
 
 local function setup_telescope_extension()
   local telescope = require("telescope")
-  local themes = require("telescope._extensions.keymap_search.themes")
+  local themes = require("telescope._extensions.keywhiz.themes")
 
   telescope.setup({
     extensions = {
-      keymap_search = require("telescope._extensions.keymap_search.config").defaults,
+      keymap_search = require("telescope._extensions.keywhiz.config").defaults,
     },
   })
 
@@ -180,18 +180,18 @@ local function setup_telescope_extension()
   telescope.register_extension({
     exports = {
       -- Main keymap search
-      keymap_search = require("telescope._extensions.keymap_search.picker").create_picker,
+      keymap_search = require("telescope._extensions.keywhiz.picker").create_picker,
 
       -- Additional pickers
-      conflicts = require("telescope._extensions.keymap_search.conflicts").show_conflicts,
-      palette = require("telescope._extensions.keymap_search.command_palette").show_palette,
+      conflicts = require("telescope._extensions.keywhiz.conflicts").show_conflicts,
+      palette = require("telescope._extensions.keywhiz.command_palette").show_palette,
 
       -- Theme support
       themes = themes.show_themes,
     },
     setup = function(ext_config)
       -- Allow extension configuration
-      require("telescope._extensions.keymap_search.config").setup(ext_config)
+      require("telescope._extensions.keywhiz.config").setup(ext_config)
     end,
   })
 end
@@ -204,13 +204,13 @@ local function init()
   end
 
   -- Initialize cache directory
-  local cache_dir = vim.fn.stdpath("cache") .. "/telescope-keymap-search"
+  local cache_dir = vim.fn.stdpath("cache") .. "/telescope-keywhiz"
   vim.fn.mkdir(cache_dir, "p")
 
   -- Setup core components
-  require("telescope._extensions.keymap_search.history").setup(cache_dir)
-  require("telescope._extensions.keymap_search.favorites").setup(cache_dir)
-  require("telescope._extensions.keymap_search.themes").setup()
+  require("telescope._extensions.keywhiz.history").setup(cache_dir)
+  require("telescope._extensions.keywhiz.favorites").setup(cache_dir)
+  require("telescope._extensions.keywhiz.themes").setup()
 
   -- Setup all available integrations
   setup_integrations(available_integrations)
@@ -236,34 +236,34 @@ _G.TelescopeKeymapSearch = {
 
   -- Category management
   add_category = function(name, patterns)
-    local categories = require("telescope._extensions.keymap_search.categories")
+    local categories = require("telescope._extensions.keywhiz.categories")
     categories.add_custom_category(name, patterns)
   end,
 
   -- Keymap registration
   register_keymap = function(mode, lhs, desc, category)
-    local utils = require("telescope._extensions.keymap_search.utils")
+    local utils = require("telescope._extensions.keywhiz.utils")
     utils.register_manual_keymap(mode, lhs, desc, category)
   end,
 
   -- Theme management
   set_theme = function(theme_name)
-    require("telescope._extensions.keymap_search.themes").set_theme(theme_name)
+    require("telescope._extensions.keywhiz.themes").set_theme(theme_name)
   end,
 
   -- Integration utilities
   get_integration = function(name)
-    return require("telescope._extensions.keymap_search.integrations." .. name)
+    return require("telescope._extensions.keywhiz.integrations." .. name)
   end,
 
   -- Command palette
   show_palette = function()
-    require("telescope._extensions.keymap_search.command_palette").show()
+    require("telescope._extensions.keywhiz.command_palette").show()
   end,
 
   -- Conflict checking
   check_conflicts = function()
-    return require("telescope._extensions.keymap_search.conflicts").detect_conflicts()
+    return require("telescope._extensions.keywhiz.conflicts").detect_conflicts()
   end,
 }
 
